@@ -2,7 +2,7 @@
 
 ## Tests
 ### User
-[x] Should be able to create a new user
+(x) Should be able to create a new user
 [x] Should not be able to create a new user when username already exists
 ### todos
 [x] Middleware
