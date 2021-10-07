@@ -1,5 +1,5 @@
 /**
- * Challenge 01 - Conceitos de NodeJS
+ * Challenge 01 - NodeJs Concepts
  * 
  * author : anonyblast [Gustavo Iafelix]
  */
@@ -17,7 +17,7 @@ function verifyUsername(request, response, next) {
     const usernameExists = users.find((usernameExists) => usernameExists.username == username);
 
     if (!usernameExists) {
-        return response.status(404).json({ error: "Bad request" });
+        return response.status(404).json({ error: "User not found" });
     }
 
     request.usernameExists = usernameExists;
@@ -33,7 +33,7 @@ app.post('/users', (request, response) => {
     );
 
     if (userAlreadyExists) {
-        return response.status(404).json({ error: "Bad Request" });
+        return response.status(404).json({ error: "User already exists" });
     }
 
     users.push({
@@ -78,7 +78,7 @@ app.put('/todos/:id', verifyUsername, (request, response) => {
     const todo = usernameExists.todos.find(todo => todo.id == id)
 
     if (!todo) {
-        return response.status(404).json({ error: 'Bad request' })
+        return response.status(404).json({ error: 'Not found' })
     }
 
     todo.title = title;
@@ -89,33 +89,34 @@ app.put('/todos/:id', verifyUsername, (request, response) => {
 })
 
 app.patch('/todos/:id/done', verifyUsername, (request, response) => {
-    const { usernameExists } = request;
-    const { id } = request.params;
+            const { usernameExists } = request;
+            const { id } = request.params;
 
-    const todo = usernameExists.todos.find(todo => todo.id == id)
+            const todo = usernameExists.todos.find(todo => todo.id == id)
 
-    if (!todo) {
-        return response.status(404).json({ error: 'Bad request' })
-    }
+            if (!todo) {
+                return response.status(404).json({
+                        error: 'Not found })
+                    }
 
-    todo.done = true;
+                    todo.done = true;
 
-    return response.json(todo);
-})
+                    return response.json(todo);
+                })
 
-app.delete('/todos/:id', verifyUsername, (request, response) => {
-    const { usernameExists } = request;
-    const { id } = request.params;
+            app.delete('/todos/:id', verifyUsername, (request, response) => {
+                const { usernameExists } = request;
+                const { id } = request.params;
 
-    const index = usernameExists.todos.findIndex(todo => todo.id == id)
+                const index = usernameExists.todos.findIndex(todo => todo.id == id)
 
-    if (index == -1) {
-        return response.status(404).json({ error: 'Bad request' })
-    }
+                if (index == -1) {
+                    return response.status(404).json({ error: 'Not found' })
+                }
 
-    usernameExists.todos.splice(index, 1);
+                usernameExists.todos.splice(index, 1);
 
-    return response.status(204).send()
-})
+                return response.status(204).send()
+            })
 
-app.listen(PORT);
+            app.listen(PORT);
